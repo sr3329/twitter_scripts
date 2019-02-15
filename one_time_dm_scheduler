@@ -1,0 +1,37 @@
+import twitter, time
+import schedule
+from datetime import datetime
+
+# Enter Twitter API keys here
+consumer_key = ''
+consumer_secret = ''
+access_token_key = ''
+access_token_secret = ''
+
+api = twitter.Api(
+    consumer_key=consumer_key,
+    consumer_secret=consumer_secret,
+    access_token_key=access_token_key,
+    access_token_secret=access_token_secret)
+
+msg = "Roses are red and violets blue, ain't gonna stay up to text...a bot will do! #HBD"
+
+def job():
+	try:
+		# Send Direct Message
+		send_msg = api.PostDirectMessage(msg, user_id='enter_recipient_user_id_here', screen_name='enter_recipient_screen_name_here')
+		return schedule.CancelJob #run once and stop
+	except:
+		print ('failed to send DM')
+
+#schedule.every(0.5).minutes.do(job)
+#schedule.every().hour.do(job)
+schedule.every().day.at("00:00").do(job)
+#schedule.every(5).to(10).minutes.do(job)
+#schedule.every().monday.do(job)
+#schedule.every().friday.at("17:13").do(job)
+#schedule.every().minute.at(":17").do(job)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
